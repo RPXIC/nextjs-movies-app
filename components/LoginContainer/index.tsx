@@ -5,7 +5,7 @@ import BackgroundImage from '../../public/login-background.svg'
 export default function LoginContainer({ children }: any) {
   return (
     <StyledLoginContainer>
-      <Image alt='bgImage' src={BackgroundImage} />
+      <Image alt='bgImage' src={BackgroundImage} fill priority />
       {children}
     </StyledLoginContainer>
   )

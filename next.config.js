@@ -5,7 +5,7 @@ const nextConfig = {
     styledComponents: true
   },
   images: {
-    domains: ['static3.srcdn.com']
+    domains: ['static3.srcdn.com', 'i0.wp.com', 'hips.hearstapps.com']
   }
 }
 
