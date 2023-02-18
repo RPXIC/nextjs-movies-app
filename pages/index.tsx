@@ -1,24 +1,27 @@
-import { signOut, useSession } from 'next-auth/react'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth/next'
+import CTAButton from '@/components/CTAButton'
+import FiltersContainer from '@/components/FiltersContainer'
+import { useState } from 'react'
+import Header from '@/components/Header'
 
 export default function Movies({ moviesByGenres, highlightedMovies }: any) {
-  const { data: session } = useSession()
-  console.log({ moviesByGenres, highlightedMovies })
+  const [filter, setFilter] = useState()
+  console.log({ moviesByGenres, highlightedMovies }, filter)
+
+  const handleClick = (name: any) => {
+    setFilter(name)
+  }
 
   return (
-    <div>
-      {session?.user && (
-        <>
-          Signed in as {session.user.email} <br />
-          <button onClick={() => signOut()}>Sign out</button>
-        </>
-      )}
-
-      <h1>Movies</h1>
-      {moviesByGenres.map((genre: any) => (
-        <p key={genre.id}>{genre.name}</p>
-      ))}
+    <div style={{ backgroundColor: '#222222' }}>
+      <Header highlightedMovies={highlightedMovies} />
+      <FiltersContainer>
+        {moviesByGenres.map((genre: any) => (
+          <CTAButton key={genre.id} text={genre.name} action={handleClick} />
+        ))}
+      </FiltersContainer>
+      <p>Selected filter: {filter}</p>
     </div>
   )
 }

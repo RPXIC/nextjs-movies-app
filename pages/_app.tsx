@@ -19,6 +19,7 @@ const theme: DefaultTheme = {
     backgroundInput: 'rgba(255, 255, 255, 0.1)',
     borderInput: '#751B5C',
     white: '#ffffff'
+    // backgroundColor: '#222222'
   }
 }
 

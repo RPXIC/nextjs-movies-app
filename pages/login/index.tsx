@@ -1,5 +1,6 @@
 import Button from '@/components/Button'
 import Input from '@/components/Input'
+import LoginContainer from '@/components/LoginContainer'
 import LoginForm from '@/components/LoginForm'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Router from 'next/router'
@@ -24,13 +25,13 @@ export default function Login() {
   }
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: '16px' }}>
+    <LoginContainer>
       {error && <p>{error}</p>} <br />
       <LoginForm>
         <Input type='email' value={username} onChange={setUsername} placeholder='Username' />
         <Input type='password' value={password} onChange={setPassword} placeholder='Password' />
         <Button text='Sign In' type='button' action={handleSubmit} />
       </LoginForm>
-    </main>
+    </LoginContainer>
   )
 }

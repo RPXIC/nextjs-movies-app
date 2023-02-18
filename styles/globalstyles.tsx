@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
     color: ${({ theme }: any) => theme.colors.black};
     padding: 0;
     margin: 0;
+    backgroundColor: ${({ theme }: any) => theme.colors.backgroundColor}
   }
   a {
     color: inherit;
