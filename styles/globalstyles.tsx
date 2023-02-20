@@ -15,6 +15,15 @@ const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
+
+  .swiper-pagination-bullet{
+    width: 50px;
+    height: 6px;
+    border-radius: 8px;
+  }
+  .swiper-pagination-bullet-active {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+  }
 `
 
 export default GlobalStyle

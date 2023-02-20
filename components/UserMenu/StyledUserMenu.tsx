@@ -7,7 +7,7 @@ export const StyledUserMenu = styled.ul`
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 1;
+  z-index: 2;
   width: 400px;
   height: 150px;
   display: flex;

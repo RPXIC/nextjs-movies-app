@@ -5,8 +5,12 @@ export const StlyedCTAButton = styled.button`
   border-radius: 16px;
   height: 46px;
   min-width: 125px;
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.black};
+  background-color: ${(props: any) => (props.filter === props.text ? ({ theme }) => theme.colors.primary : ({ theme }) => theme.colors.white)};
+  color: ${(props: any) => (props.filter === props.text ? ({ theme }) => theme.colors.white : ({ theme }) => theme.colors.black)};
+  font-weight: ${(props: any) => (props.filter === props.text ? 700 : 400)};
+  font-size: 18px;
+  line-height: 21px;
+
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
     cursor: pointer;
