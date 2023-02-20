@@ -6,7 +6,7 @@ import GlobalStyle from '../styles/globalstyles'
 import { Roboto } from '@next/font/google'
 
 const roboto = Roboto({
-  weight: ['400', '700'],
+  weight: ['400', '500', '700'],
   subsets: ['latin']
 })
 
@@ -18,8 +18,8 @@ const theme: DefaultTheme = {
     black: '#000000',
     backgroundInput: 'rgba(255, 255, 255, 0.1)',
     borderInput: '#751B5C',
-    white: '#ffffff'
-    // backgroundColor: '#222222'
+    white: '#ffffff',
+    backgroundColor: '#222222'
   }
 }
 

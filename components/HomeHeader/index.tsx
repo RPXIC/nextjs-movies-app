@@ -2,7 +2,7 @@ import { StyledHeader } from './StyledHeader'
 import HeaderCarousel from '../Carousel'
 import UserMenu from '../UserMenu'
 
-export default function Header({ highlightedMovies }: any) {
+export default function HomeHeader({ highlightedMovies }: any) {
   return (
     <>
       <StyledHeader>

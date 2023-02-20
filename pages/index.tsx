@@ -1,15 +1,16 @@
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
-import { getServerSession } from 'next-auth/next'
-import CTAButton from '@/components/CTAButton'
-import FiltersContainer from '@/components/FiltersContainer'
 import { useState } from 'react'
-import Header from '@/components/Header'
-import GenreRow from '@/components/GenreRow'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { FreeMode } from 'swiper'
+import Head from 'next/head'
+import { getServerSession } from 'next-auth/next'
+import Layout from '@/components/Layout/layout'
+import HomeHeader from '@/components/HomeHeader'
+import Filters from '@/components/Filters'
+import Movies from '@/components/Movies'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { getMovies } from '@/services/getMovies'
+import { getGenres } from '@/services/getGenres'
 import 'swiper/css/bundle'
 
-export default function Movies({ moviesByGenres, highlightedMovies, allMovies }: any) {
+export default function Home({ moviesByGenres, highlightedMovies, allMovies }: any) {
   const [filter, setFilter] = useState('')
   console.log({ moviesByGenres, highlightedMovies, allMovies }, filter)
 
@@ -19,22 +20,14 @@ export default function Movies({ moviesByGenres, highlightedMovies, allMovies }:
   }
 
   return (
-    <div style={{ backgroundColor: '#222222' }}>
-      <Header highlightedMovies={highlightedMovies} />
-      <FiltersContainer>
-        <Swiper spaceBetween={32} slidesPerView='auto' freeMode modules={[FreeMode]} style={{ margin: 0 }}>
-          {moviesByGenres.map((genre: any) => (
-            <SwiperSlide key={genre.id} style={{ width: '125px' }}>
-              <CTAButton filter={filter} key={genre.id} text={genre.name} action={handleClick} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </FiltersContainer>
-      {moviesByGenres.map((genre: any) => {
-        if (filter && filter !== genre.name) return null
-        return <GenreRow key={genre.id} genre={genre} />
-      })}
-    </div>
+    <Layout>
+      <Head>
+        <title>Movies App NextJS · Home</title>
+      </Head>
+      <HomeHeader highlightedMovies={highlightedMovies} />
+      <Filters moviesByGenres={moviesByGenres} handleClick={handleClick} filter={filter} />
+      <Movies moviesByGenres={moviesByGenres} filter={filter} />
+    </Layout>
   )
 }
 
@@ -50,21 +43,9 @@ export async function getServerSideProps({ req, res }: any) {
     }
   }
 
-  const genresResponse = await fetch(`${process.env.API_URL}/films/genres`, {
-    headers: {
-      Authorization: `Bearer ${session?.user.accessToken}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const genres = await genresResponse.json()
+  const genres = await getGenres({ session })
 
-  const moviesResponse = await fetch(`${process.env.API_URL}/films/movies`, {
-    headers: {
-      Authorization: `Bearer ${session?.user.accessToken}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const allMovies = await moviesResponse.json()
+  const allMovies = await getMovies({ session })
 
   const moviesByGenres = genres.map((genre: any) => {
     const movies = allMovies.filter((movie: any) => movie.genre === genre.id)
@@ -82,4 +63,4 @@ export async function getServerSideProps({ req, res }: any) {
   }
 }
 
-Movies.auth = true
+Home.auth = true

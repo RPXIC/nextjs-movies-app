@@ -1,9 +1,11 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode } from 'swiper'
 import { Roboto_Condensed } from '@next/font/google'
 import { StyledTitle } from './StyledTitle'
 import { StyledContainer } from './StyledContainer'
+import { parseMovieNameToURL } from '@/utils/parseMovieNameToURL'
 import 'swiper/css/bundle'
 
 const robotoCondensed = Roboto_Condensed({
@@ -18,7 +20,9 @@ export default function GenreRow({ genre }: any) {
       <Swiper spaceBetween={32} slidesPerView='auto' freeMode modules={[FreeMode]}>
         {genre.movies.map((movie: any) => (
           <SwiperSlide key={movie.id} style={{ width: '261px' }}>
-            <Image src={movie.thumbnail} alt={movie.title} width={261} height={386} style={{ borderRadius: '16px' }} />
+            <Link href={`/movies/${parseMovieNameToURL(movie.title)}`}>
+              <Image src={movie.thumbnail} alt={movie.title} width={261} height={386} style={{ borderRadius: '16px' }} />
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

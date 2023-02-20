@@ -1,10 +1,11 @@
+import { useState } from 'react'
+import Router from 'next/router'
+import Head from 'next/head'
 import Button from '@/components/Button'
 import Input from '@/components/Input'
 import LoginContainer from '@/components/LoginContainer'
 import LoginForm from '@/components/LoginForm'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import Router from 'next/router'
-import { useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
 
 export default function Login() {
   const [username, setUsername] = useState('')
@@ -26,6 +27,9 @@ export default function Login() {
 
   return (
     <LoginContainer>
+      <Head>
+        <title>Movies App NextJS - Login</title>
+      </Head>
       {error && <p>{error}</p>} <br />
       <LoginForm>
         <Input type='email' value={username} onChange={setUsername} placeholder='Username' />

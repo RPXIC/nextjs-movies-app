@@ -6,4 +6,5 @@ export const StyledTitle = styled.h1`
   font-weight: 700;
   margin: 0 0 8px 0;
   line-height: 54px;
+  color: ${({ theme }) => theme.colors.white};
 `

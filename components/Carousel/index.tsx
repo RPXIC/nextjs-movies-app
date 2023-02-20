@@ -1,12 +1,13 @@
+import Image from 'next/image'
+import { Autoplay } from 'swiper'
+import { Pagination } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Roboto_Condensed } from '@next/font/google'
 import { StyledTitle } from './StyledTitle'
 import { StyledTextContainer } from './StyledTextContainer'
-import { StyledDescription } from './StyledDescription'
-import Image from 'next/image'
+import { StyledEllipsisDescription } from './StyledEllipsisDescription'
 import { StyledLink } from './StyledLink'
-import { Roboto_Condensed } from '@next/font/google'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper'
-import { Autoplay } from 'swiper'
+import { parseMovieNameToURL } from '@/utils/parseMovieNameToURL'
 import 'swiper/css/bundle'
 
 const robotoCondensed = Roboto_Condensed({
@@ -15,11 +16,6 @@ const robotoCondensed = Roboto_Condensed({
 })
 
 export default function HeaderCarousel({ highlightedMovies }: any) {
-  const style: any = {
-    objectFit: 'cover',
-    objectPosition: 'center'
-  }
-
   return (
     <>
       <Swiper
@@ -31,11 +27,11 @@ export default function HeaderCarousel({ highlightedMovies }: any) {
         style={{ height: '600px' }}>
         {highlightedMovies.map((movie: any) => (
           <SwiperSlide key={movie.id}>
-            <Image src={movie.poster} alt='First slide' style={style} sizes='(max-width: 1660px)' fill priority />
-            <StyledTextContainer style={{ position: 'absolute', top: '144px', padding: '0 16px' }}>
+            <Image src={movie.poster} alt={movie.title} style={{ objectFit: 'cover', objectPosition: 'center' }} sizes='(max-width: 1660px)' fill priority />
+            <StyledTextContainer>
               <StyledTitle className={robotoCondensed.className}>{movie.title.toUpperCase()}</StyledTitle>
-              <StyledDescription>{movie.description}</StyledDescription>
-              <StyledLink className={robotoCondensed.className} href={`/movies/${movie.id}`} style={{ position: 'absolute' }}>
+              <StyledEllipsisDescription>{movie.description}</StyledEllipsisDescription>
+              <StyledLink className={robotoCondensed.className} href={`/movies/${parseMovieNameToURL(movie.title)}`} style={{ position: 'absolute' }}>
                 Discover
               </StyledLink>
             </StyledTextContainer>
