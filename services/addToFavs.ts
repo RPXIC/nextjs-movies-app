@@ -1,5 +1,5 @@
 export const addToFavs = async ({ id, token }: any) => {
-  const favResponse = await fetch(`${process.env.nextApiULR}/films/user/list`, {
+  const favResponse = await fetch(`${process.env.nextApiURL}/films/user/list`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
