@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 
-export const StyledTitle = styled.h2`
-  margin: 32px 0;
+export const StyledLabel = styled.span`
   font-weight: 700;
-  font-size: 40px;
-  line-height: 47px;
+  font-size: 16px;
+  line-height: 18.75px;
   ${({ theme }) => theme.fonts.secondary};
 `

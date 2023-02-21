@@ -3,10 +3,11 @@ import { createGlobalStyle } from 'styled-components'
 const GlobalStyle = createGlobalStyle`
   html,
   body {
-    color: ${({ theme }: any) => theme.colors.black};
     padding: 0;
     margin: 0;
-    backgroundColor: ${({ theme }: any) => theme.colors.backgroundColor}
+    color: ${({ theme }: any) => theme.colors.white};
+    background-color: ${({ theme }: any) => theme.colors.backgroundColor};
+    ${({ theme }: any) => theme.fonts.primary};
   }
   a {
     color: inherit;

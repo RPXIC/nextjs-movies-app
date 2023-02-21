@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 
 export const StyledContainer = styled.div`
-  background-color: #000000;
-  color: #fff;
+  background-color: ${({ theme }) => theme.colors.black};
   padding: 49px 16px 40px;
   margin: 29px 0 0 0;
   display: grid;

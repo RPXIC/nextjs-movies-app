@@ -5,5 +5,13 @@ export const getGenres = async ({ session }: any) => {
       'Content-Type': 'application/json'
     }
   })
-  return await genresResponse.json()
+  const genres = await genresResponse.json()
+
+  const sortedGenres = genres.sort((a: any, b: any) => {
+    if (a.name < b.name) return -1
+    if (a.name > b.name) return 1
+    return 0
+  })
+
+  return sortedGenres
 }

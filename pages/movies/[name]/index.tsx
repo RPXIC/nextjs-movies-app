@@ -4,20 +4,24 @@ import Layout from '@/components/Layout/layout'
 import MovieHeader from '@/components/MovieHeader'
 import { StyledDescription } from '@/components/Carousel/StyledDescription'
 import { StyledTitle } from '@/components/Carousel/StyledTitle'
+import MovieDetails from '@/components/MovieDetails'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getMovies } from '@/services/getMovies'
+import { getFavs } from '@/services/getFavs'
 import { parseMovieName } from '@/utils/parseMovieName'
 
-export default function Movie({ movie }: any) {
-  console.log(movie)
+export default function Movie({ movie, isFavorite }: any) {
   return (
     <Layout>
       <Head>
         <title>Movies App NextJS · {movie.title}</title>
       </Head>
       <MovieHeader movie={movie} />
-      <StyledTitle>{movie.title.toUpperCase()}</StyledTitle>
-      <StyledDescription>{movie.description}</StyledDescription>
+      <MovieDetails movie={movie} isFavorite={isFavorite} />
+      <div style={{ padding: '0 16px' }}>
+        <StyledTitle>{movie.title.toUpperCase()}</StyledTitle>
+        <StyledDescription>{movie.description}</StyledDescription>
+      </div>
     </Layout>
   )
 }
@@ -38,9 +42,12 @@ export async function getServerSideProps({ req, res, params }: any) {
 
   const movie = allMovies.find((movie: any) => parseMovieName(movie.title) === parseMovieName(params.name))
 
+  const favorites = await getFavs({ session })
+
   return {
     props: {
-      movie: movie || null
+      movie: movie || null,
+      isFavorite: favorites.includes(movie.id)
     }
   }
 }

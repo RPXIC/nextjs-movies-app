@@ -3,10 +3,15 @@ import { SessionProvider, useSession } from 'next-auth/react'
 import { ThemeProvider, DefaultTheme } from 'styled-components'
 import type { AppProps } from 'next/app'
 import GlobalStyle from '../styles/globalstyles'
-import { Roboto } from '@next/font/google'
+import { Roboto, Roboto_Condensed } from '@next/font/google'
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
+  subsets: ['latin']
+})
+
+const robotoCondensed = Roboto_Condensed({
+  weight: ['400', '700'],
   subsets: ['latin']
 })
 
@@ -20,6 +25,10 @@ const theme: DefaultTheme = {
     borderInput: '#751B5C',
     white: '#ffffff',
     backgroundColor: '#222222'
+  },
+  fonts: {
+    primary: roboto.style,
+    secondary: robotoCondensed.style
   }
 }
 
@@ -28,7 +37,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <main className={roboto.className}>
+        <main>
           <SessionProvider session={session}>
             {Component.auth ? (
               <Auth>

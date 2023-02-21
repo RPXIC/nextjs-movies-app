@@ -30,6 +30,9 @@ const nextConfig = {
       'terrigen-cdn-dev.marvel.com',
       'static.filmin.es'
     ]
+  },
+  env: {
+    nextApiURL: process.env.API_URL
   }
 }
 

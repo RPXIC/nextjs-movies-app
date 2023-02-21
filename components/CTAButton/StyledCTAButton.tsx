@@ -10,6 +10,7 @@ export const StlyedCTAButton = styled.button`
   font-weight: ${(props: any) => (props.filter === props.text ? 700 : 400)};
   font-size: 18px;
   line-height: 21px;
+  ${({ theme }) => theme.fonts.secondary};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};

@@ -30,8 +30,8 @@ export default function Login() {
       <Head>
         <title>Movies App NextJS - Login</title>
       </Head>
-      {error && <p>{error}</p>} <br />
       <LoginForm>
+        {error && <p style={{ color: 'white', textAlign: 'center' }}>{error}</p>} <br />
         <Input type='email' value={username} onChange={setUsername} placeholder='Username' />
         <Input type='password' value={password} onChange={setPassword} placeholder='Password' />
         <Button text='Sign In' type='button' action={handleSubmit} />

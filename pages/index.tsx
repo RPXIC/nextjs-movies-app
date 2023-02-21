@@ -8,11 +8,13 @@ import Movies from '@/components/Movies'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getMovies } from '@/services/getMovies'
 import { getGenres } from '@/services/getGenres'
+import { getFavs } from '@/services/getFavs'
+import { isAvailableByDate } from '@/utils/isAvailableByDate'
 import 'swiper/css/bundle'
 
-export default function Home({ moviesByGenres, highlightedMovies, allMovies }: any) {
+export default function Home({ moviesByGenres, highlightedMovies, allMovies, commingSoonMovies, favsMovies }: any) {
   const [filter, setFilter] = useState('')
-  console.log({ moviesByGenres, highlightedMovies, allMovies }, filter)
+  console.log({ moviesByGenres, highlightedMovies, allMovies, commingSoonMovies, favsMovies })
 
   const handleClick = (name: any) => {
     if (filter === name) return setFilter('')
@@ -26,7 +28,7 @@ export default function Home({ moviesByGenres, highlightedMovies, allMovies }: a
       </Head>
       <HomeHeader highlightedMovies={highlightedMovies} />
       <Filters moviesByGenres={moviesByGenres} handleClick={handleClick} filter={filter} />
-      <Movies moviesByGenres={moviesByGenres} filter={filter} />
+      <Movies moviesByGenres={moviesByGenres} commingSoonMovies={commingSoonMovies} favsMovies={favsMovies} filter={filter} />
     </Layout>
   )
 }
@@ -47,6 +49,8 @@ export async function getServerSideProps({ req, res }: any) {
 
   const allMovies = await getMovies({ session })
 
+  const favsIDs = await getFavs({ session })
+
   const moviesByGenres = genres.map((genre: any) => {
     const movies = allMovies.filter((movie: any) => movie.genre === genre.id)
     return { ...genre, movies }
@@ -54,11 +58,17 @@ export async function getServerSideProps({ req, res }: any) {
 
   const highlightedMovies = allMovies.filter((movie: any) => movie.highlighted === true)
 
+  const commingSoonMovies = allMovies.filter((movie: any) => isAvailableByDate(movie.availableDate) === false)
+
+  const favsMovies = allMovies.filter((movie: any) => favsIDs.includes(movie.id))
+
   return {
     props: {
       moviesByGenres,
       highlightedMovies,
-      allMovies
+      allMovies,
+      commingSoonMovies,
+      favsMovies
     }
   }
 }
