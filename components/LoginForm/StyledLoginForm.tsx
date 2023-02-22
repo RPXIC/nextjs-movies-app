@@ -1,3 +1,4 @@
+import { devices } from '@/constants/devices'
 import styled from 'styled-components'
 
 export const StyledLoginForm = styled.form`
@@ -11,4 +12,19 @@ export const StyledLoginForm = styled.form`
   background-color: ${({ theme }) => theme.colors.black}};
   border-radius: 16px;
   padding: 8px;
+
+  @media ${devices.tablet} {
+    position: absolute;
+    right: 32px;
+  }
+
+  @media ${devices.desktop} {
+    position: absolute;
+    right: 120px;
+  } 
+
+  @media ${devices.ultraDesktop} {
+    position: absolute;
+    right: 130px;
+  } 
 `

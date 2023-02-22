@@ -9,17 +9,54 @@ import { StyledLinksContainer } from './StyledLinksContainer'
 import { StyledStarsContainer } from './StyledStarsContainer'
 import { StyledValue } from './StyledValue'
 import { isAvailableByDate } from '@/utils/isAvailableByDate'
-import { removeToFavs } from '@/services/removeToFavs'
-import { addToFavs } from '@/services/addToFavs'
 import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 
-export default function MovieDetails({ movie, isFavorite }: any) {
+export default function MovieDetails({ movie }: any) {
+  const [favs, setFavs] = useState<any>([])
   const isAvailable = isAvailableByDate(movie.availableDate)
   const { data: session }: any = useSession()
+  const isFavorite = favs.includes(movie.id)
+
+  useEffect(() => {
+    if (favs.length === 0) {
+      ;(async () => {
+        const favsResponse = await fetch('/api/getFavs', {
+          headers: {
+            Authorization: `Bearer ${session?.user?.accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        const favsRes = await favsResponse.json()
+        setFavs(favsRes)
+      })()
+    }
+  }, [])
 
   const handleClick = async (id: string, method: 'delete' | 'add') => {
-    if (method === 'delete') return await removeToFavs({ id, token: session?.user?.accessToken })
-    if (method === 'add') return await addToFavs({ id, token: session?.user?.accessToken })
+    if (method === 'delete') {
+      const x = await fetch('/api/removeFav', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, token: session?.user?.accessToken })
+      })
+      const y = await x.json()
+      setFavs(y.myList)
+    }
+    if (method === 'add') {
+      const x = await fetch('/api/addFav', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, token: session?.user?.accessToken })
+      })
+      const y = await x.json()
+
+      setFavs(y.myList)
+    }
   }
 
   return (

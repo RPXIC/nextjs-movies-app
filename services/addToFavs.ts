@@ -7,7 +7,5 @@ export const addToFavs = async ({ id, token }: any) => {
     },
     body: JSON.stringify({ id })
   })
-  const result = await favResponse.json()
-  console.log(result)
-  return result
+  return await favResponse.json()
 }

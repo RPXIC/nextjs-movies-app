@@ -1,11 +1,9 @@
-export const getFavs = async ({ session }: any) => {
+export const getFavs = async ({ session, token }: any) => {
   const favsResponse = await fetch(`${process.env.API_URL}/films/user/list`, {
     headers: {
-      Authorization: `Bearer ${session?.user.accessToken}`,
+      Authorization: `Bearer ${session?.user?.accessToken || token}`,
       'Content-Type': 'application/json'
     }
   })
-  const favsIDs = await favsResponse.json()
-
-  return favsIDs
+  return await favsResponse.json()
 }

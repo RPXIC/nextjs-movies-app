@@ -7,17 +7,16 @@ import { StyledTitle } from '@/components/Carousel/StyledTitle'
 import MovieDetails from '@/components/MovieDetails'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getMovies } from '@/services/getMovies'
-import { getFavs } from '@/services/getFavs'
 import { parseMovieName } from '@/utils/parseMovieName'
 
-export default function Movie({ movie, isFavorite }: any) {
+export default function Movie({ movie }: any) {
   return (
     <Layout>
       <Head>
         <title>Movies App NextJS · {movie.title}</title>
       </Head>
       <MovieHeader movie={movie} />
-      <MovieDetails movie={movie} isFavorite={isFavorite} />
+      <MovieDetails movie={movie} />
       <div style={{ padding: '0 16px' }}>
         <StyledTitle>{movie.title.toUpperCase()}</StyledTitle>
         <StyledDescription>{movie.description}</StyledDescription>
@@ -42,12 +41,9 @@ export async function getServerSideProps({ req, res, params }: any) {
 
   const movie = allMovies.find((movie: any) => parseMovieName(movie.title) === parseMovieName(params.name))
 
-  const favorites = await getFavs({ session })
-
   return {
     props: {
-      movie: movie || null,
-      isFavorite: favorites.includes(movie.id)
+      movie: movie || null
     }
   }
 }
