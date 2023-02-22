@@ -18,8 +18,8 @@ export default function MovieDetails({ movie, isFavorite }: any) {
   const { data: session }: any = useSession()
 
   const handleClick = async (id: string, method: 'delete' | 'add') => {
-    if (method === 'delete') return await removeToFavs({ id, token: session?.accessToken })
-    if (method === 'add') return await addToFavs({ id, token: session?.accessToken })
+    if (method === 'delete') return await removeToFavs({ id, token: session?.user?.accessToken })
+    if (method === 'add') return await addToFavs({ id, token: session?.user?.accessToken })
   }
 
   return (
