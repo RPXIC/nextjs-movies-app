@@ -14,7 +14,7 @@ import { isAvailableByDate } from '@/utils/isAvailableByDate'
 import { IMovie } from '@/interfaces'
 
 export default function MovieDetails({ movie, genre }: { movie: IMovie; genre: string }) {
-  const [favs, setFavs] = useState<any>([])
+  const [favs, setFavs] = useState<string[]>([])
   const isAvailable = isAvailableByDate(movie.availableDate)
   const { data: session }: any = useSession()
   const isFavorite = favs.includes(movie.id)

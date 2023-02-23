@@ -37,3 +37,28 @@ export interface ISession extends Session {
   }
   expires: string
 }
+
+export interface ITheme {
+  colors: {
+    primary: string
+    primaryHover: string
+    secondary: string
+    black: string
+    backgroundInput: string
+    borderInput: string
+    white: string
+    backgroundColor: string
+  }
+  fonts: {
+    primary: {
+      fontFamily: string
+      fontWeight?: number | undefined
+      fontStyle?: string | undefined
+    }
+    secondary: {
+      fontFamily: string
+      fontWeight?: number | undefined
+      fontStyle?: string | undefined
+    }
+  }
+}

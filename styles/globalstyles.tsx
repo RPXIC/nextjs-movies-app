@@ -1,14 +1,14 @@
 import { devices } from '@/constants/devices'
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, DefaultTheme, GlobalStyleComponent } from 'styled-components'
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle: GlobalStyleComponent<any, DefaultTheme> = createGlobalStyle`
   html,
   body {
     padding: 0;
     margin: 0;
-    color: ${({ theme }: any) => theme.colors.white};
-    background-color: ${({ theme }: any) => theme.colors.backgroundColor};
-    ${({ theme }: any) => theme.fonts.primary};
+    color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.backgroundColor};
+    ${({ theme }) => theme.fonts.primary};
   }
   a {
     color: inherit;

@@ -4,7 +4,7 @@ import { Props } from './types'
 export default function Movies({ moviesByGenres, filter, commingSoonMovies, favsMovies }: Props) {
   return (
     <>
-      {moviesByGenres.map((genre: any) => {
+      {moviesByGenres.map((genre) => {
         if (filter && filter !== genre.name) return null
         return <GenreRow key={genre.id} genre={genre} />
       })}

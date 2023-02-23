@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 
   const movie: IMovie | undefined = allMovies.find((movie: IMovie) => parseMovieName(movie.title) === parseMovieName(params?.name as string))
 
-  const genre: string | undefined = genres.find((genre: any) => genre.id === movie?.genre)?.name
+  const genre: string | undefined = genres.find((genre) => genre.id === movie?.genre)?.name
 
   return {
     props: {

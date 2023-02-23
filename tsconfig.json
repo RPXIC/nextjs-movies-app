@@ -19,6 +19,18 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "utils/getSlidesOffsetBeforeByWindowSize.spec.js",
+    "utils/getSlidesOffsetBeforeByWindowSize.spec.js",
+    "utils/isAvailableByDate.spec.js",
+    "utils/isAvailableByDate.spec.js",
+    "utils/parseMovieName.spec.js",
+    "utils/parseMovieName.spec.js",
+    "utils/parseMovieNameToURL.spec.js",
+    "utils/parseMovieNameToURL.spec.js"
+  ],
   "exclude": ["node_modules"]
 }

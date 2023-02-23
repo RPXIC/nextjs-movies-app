@@ -1,4 +1,6 @@
 export const getSlidesOffsetBeforeByWindowSize = (width?: number) => {
+  if (width !== undefined && typeof width !== 'number') throw new Error('width must be a number')
+
   if (width === undefined) {
     return 0
   }

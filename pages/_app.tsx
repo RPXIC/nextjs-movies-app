@@ -1,10 +1,11 @@
 import Router from 'next/router'
 import { SessionProvider, useSession } from 'next-auth/react'
-import { ThemeProvider, DefaultTheme } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 import type { AppProps } from 'next/app'
-import GlobalStyle from '../styles/globalstyles'
+import Loader from '@/components/Loader'
 import { Roboto, Roboto_Condensed } from '@next/font/google'
 import { ReactNode } from 'react'
+import GlobalStyle from '../styles/globalstyles'
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -16,7 +17,7 @@ const robotoCondensed = Roboto_Condensed({
   subsets: ['latin']
 })
 
-const theme: DefaultTheme = {
+const theme = {
   colors: {
     primary: '#751B5C',
     primaryHover: '#911870',
@@ -61,7 +62,7 @@ function Auth({ children }: { children: ReactNode }): JSX.Element {
   })
 
   if (status === 'loading') {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   return <>{children}</>
