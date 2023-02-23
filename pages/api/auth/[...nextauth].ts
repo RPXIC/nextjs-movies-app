@@ -11,7 +11,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials, req): Promise<any> {
-        console.log(credentials)
         const res = await fetch('https://kata.conducerevel.com/films/auth/sign-in', {
           method: 'POST',
           body: JSON.stringify(credentials),

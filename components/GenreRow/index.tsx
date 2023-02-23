@@ -5,14 +5,15 @@ import { FreeMode } from 'swiper'
 import { StyledTitle } from './StyledTitle'
 import { StyledContainer } from './StyledContainer'
 import { parseMovieNameToURL } from '@/utils/parseMovieNameToURL'
+import { Props } from './types'
 import 'swiper/css/bundle'
 
-export default function GenreRow({ genre, commingSoonType }: any) {
+export default function GenreRow({ genre, commingSoonType }: Props) {
   return (
     <StyledContainer key={genre.id}>
       <StyledTitle>{genre.name}</StyledTitle>
       <Swiper spaceBetween={32} slidesPerView='auto' freeMode modules={[FreeMode]}>
-        {genre.movies.map((movie: any) => (
+        {genre.movies.map((movie) => (
           <SwiperSlide key={movie.id} style={{ width: commingSoonType ? 400 : 261 }}>
             <Link href={`/movies/${parseMovieNameToURL(movie.title)}`}>
               <Image

@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import styled from 'styled-components'
+import { devices } from '@/constants/devices'
 
 export const StyledLink = styled(Link)`
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,5 +18,10 @@ export const StyledLink = styled(Link)`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
+  }
+
+  @media ${devices.desktop} {
+    min-width: 343px;
+    height: 57px;
   }
 `

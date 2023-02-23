@@ -1,6 +1,11 @@
 import styled from 'styled-components'
 
-export const StlyedCTAButton = styled.button`
+interface CTAButtonProps {
+  readonly filter?: string
+  readonly text?: string
+}
+
+export const StlyedCTAButton = styled.button<CTAButtonProps>`
   border-style: none;
   border-radius: 16px;
   height: 46px;

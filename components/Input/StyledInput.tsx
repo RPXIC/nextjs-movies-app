@@ -14,10 +14,4 @@ export const StlyedInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.colors.white};
   }
-  // &:-webkit-autofill,
-  // &:-webkit-autofill:hover,
-  // &:-webkit-autofill:focus,
-  // &:-webkit-autofill:active {
-  //   box-shadow: 0 0 0 30px gray inset !important;
-  // }
 `

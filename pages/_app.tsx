@@ -4,6 +4,7 @@ import { ThemeProvider, DefaultTheme } from 'styled-components'
 import type { AppProps } from 'next/app'
 import GlobalStyle from '../styles/globalstyles'
 import { Roboto, Roboto_Condensed } from '@next/font/google'
+import { ReactNode } from 'react'
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -32,28 +33,26 @@ const theme: DefaultTheme = {
   }
 }
 
-export default function App({ Component, pageProps: { session, ...pageProps } }: any /*AppProps*/) {
+export default function App({ Component, pageProps }: { Component: any } & AppProps) {
   return (
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <main>
-          <SessionProvider session={session}>
-            {Component.auth ? (
-              <Auth>
-                <Component {...pageProps} />
-              </Auth>
-            ) : (
+        <SessionProvider session={pageProps.session}>
+          {Component.auth ? (
+            <Auth>
               <Component {...pageProps} />
-            )}
-          </SessionProvider>
-        </main>
+            </Auth>
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </SessionProvider>
       </ThemeProvider>
     </>
   )
 }
 
-function Auth({ children }: any) {
+function Auth({ children }: { children: ReactNode }): JSX.Element {
   const { status } = useSession({
     required: true,
     onUnauthenticated() {
@@ -65,5 +64,5 @@ function Auth({ children }: any) {
     return <div>Loading...</div>
   }
 
-  return children
+  return <>{children}</>
 }

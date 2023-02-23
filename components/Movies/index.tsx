@@ -1,6 +1,7 @@
 import GenreRow from '../GenreRow'
+import { Props } from './types'
 
-export default function Movies({ moviesByGenres, filter, commingSoonMovies, favsMovies }: any) {
+export default function Movies({ moviesByGenres, filter, commingSoonMovies, favsMovies }: Props) {
   return (
     <>
       {moviesByGenres.map((genre: any) => {

@@ -8,15 +8,21 @@ import MovieDetails from '@/components/MovieDetails'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getMovies } from '@/services/getMovies'
 import { parseMovieName } from '@/utils/parseMovieName'
+import { getGenres } from '@/services/getGenres'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { IMovie, ISession } from '@/interfaces'
 
-export default function Movie({ movie }: any) {
+export default function Movie({ movie, genre }: { movie: IMovie; genre: string }) {
+  if (!movie) return <div>Movie not found</div>
+
   return (
     <Layout>
       <Head>
         <title>Movies App NextJS · {movie.title}</title>
+        <meta name='description' content='Movies App NextJS' />
       </Head>
       <MovieHeader movie={movie} />
-      <MovieDetails movie={movie} />
+      <MovieDetails movie={movie} genre={genre} />
       <div style={{ padding: '0 16px' }}>
         <StyledTitle>{movie.title.toUpperCase()}</StyledTitle>
         <StyledDescription>{movie.description}</StyledDescription>
@@ -25,8 +31,9 @@ export default function Movie({ movie }: any) {
   )
 }
 
-export async function getServerSideProps({ req, res, params }: any) {
-  const session: any = await getServerSession(req, res, authOptions)
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+  const { req, res, params } = context
+  const session: ISession | null = await getServerSession(req, res, authOptions)
 
   if (!session?.user) {
     return {
@@ -37,13 +44,16 @@ export async function getServerSideProps({ req, res, params }: any) {
     }
   }
 
-  const allMovies = await getMovies({ session })
+  const [genres, allMovies] = await Promise.all([getGenres({ session }), getMovies({ session })])
 
-  const movie = allMovies.find((movie: any) => parseMovieName(movie.title) === parseMovieName(params.name))
+  const movie: IMovie | undefined = allMovies.find((movie: IMovie) => parseMovieName(movie.title) === parseMovieName(params?.name as string))
+
+  const genre: string | undefined = genres.find((genre: any) => genre.id === movie?.genre)?.name
 
   return {
     props: {
-      movie: movie || null
+      movie: movie || null,
+      genre: genre || null
     }
   }
 }

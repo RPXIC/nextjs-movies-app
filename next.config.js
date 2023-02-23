@@ -33,6 +33,10 @@ const nextConfig = {
   },
   env: {
     nextApiURL: process.env.API_URL
+  },
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en'
   }
 }
 

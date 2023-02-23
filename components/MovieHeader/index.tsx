@@ -1,13 +1,14 @@
 import { StyledHeader } from './StyledHeader'
 import UserMenu from '../UserMenu'
-import Image from 'next/image'
+import { StyledImage } from './StyledImage'
+import { IMovie } from '@/interfaces'
 
-export default function MovieHeader({ movie }: any) {
+export default function MovieHeader({ movie }: { movie: IMovie }) {
   return (
     <>
       <StyledHeader>
         <UserMenu />
-        <Image src={movie.poster} alt={movie.title} style={{ objectFit: 'cover', objectPosition: 'center' }} sizes='(max-width: 1660px)' fill priority />
+        <StyledImage src={movie.poster} alt={movie.title} sizes='(max-width: 1660px)' fill priority />
       </StyledHeader>
     </>
   )

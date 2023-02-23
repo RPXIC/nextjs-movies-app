@@ -1,8 +1,8 @@
 import styled from 'styled-components'
+import { Swiper } from 'swiper/react'
 import { devices } from '@/constants/devices'
 
-export const StyledHeader = styled.header`
-  position: relative;
+export const StyledSwiper = styled(Swiper)`
   height: 600px;
 
   @media ${devices.desktop} {

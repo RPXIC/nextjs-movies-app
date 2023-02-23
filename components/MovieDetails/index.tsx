@@ -1,18 +1,19 @@
-import Plus from '../Icons/Plus'
-import EmptyStar from '../Icons/Rating/EmptyStar'
-import FilledStar from '../Icons/Rating/FilledStar'
-import Star from '../Icons/Star'
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { StyledContainer } from './StyledContainer'
 import { StyledLabel } from './StyledLabel'
 import { StyledLink } from './StyledLink'
 import { StyledLinksContainer } from './StyledLinksContainer'
-import { StyledStarsContainer } from './StyledStarsContainer'
+import { StyledStarsValue } from './StyledStarsValue'
 import { StyledValue } from './StyledValue'
+import { StyledStarsContainer } from './StyledStarsContainer'
+import CTAFav from '../CTAFav'
+import FilledStar from '../Icons/Rating/FilledStar'
+import EmptyStar from '../Icons/Rating/EmptyStar'
 import { isAvailableByDate } from '@/utils/isAvailableByDate'
-import { useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
+import { IMovie } from '@/interfaces'
 
-export default function MovieDetails({ movie }: any) {
+export default function MovieDetails({ movie, genre }: { movie: IMovie; genre: string }) {
   const [favs, setFavs] = useState<any>([])
   const isAvailable = isAvailableByDate(movie.availableDate)
   const { data: session }: any = useSession()
@@ -31,6 +32,7 @@ export default function MovieDetails({ movie }: any) {
         setFavs(favsRes)
       })()
     }
+    // eslint-disable-next-line
   }, [])
 
   const handleClick = async (id: string, method: 'delete' | 'add') => {
@@ -71,24 +73,22 @@ export default function MovieDetails({ movie }: any) {
           </StyledLink>
         )}
       </StyledLinksContainer>
-      <div style={{ margin: '32px 0 16px 25px' }}>
-        {isFavorite ? <Star onClick={() => handleClick(movie.id, 'delete')} /> : <Plus onClick={() => handleClick(movie.id, 'add')} />}
-      </div>
+      <CTAFav isFavorite={isFavorite} handleClick={handleClick} movie={movie} />
       <p>
-        <StyledLabel>Add to my list</StyledLabel>
+        <StyledLabel>{isFavorite ? 'Remove from my list' : 'Add to my list'}</StyledLabel>
       </p>
       {movie.rating && (
-        <p style={{ display: 'flex', alignItems: 'center' }}>
+        <StyledStarsContainer>
           <StyledLabel>Rating: </StyledLabel>
-          <StyledStarsContainer>
+          <StyledStarsValue>
             {Array.from({ length: movie.rating }, (_, i) => (
               <FilledStar key={i} />
             ))}
             {Array.from({ length: 5 - movie.rating }, (_, i) => (
               <EmptyStar key={i} />
             ))}
-          </StyledStarsContainer>
-        </p>
+          </StyledStarsValue>
+        </StyledStarsContainer>
       )}
       <p>
         <StyledLabel>Cast: </StyledLabel>
@@ -96,7 +96,7 @@ export default function MovieDetails({ movie }: any) {
       </p>
       <p>
         <StyledLabel>Genre: </StyledLabel>
-        <StyledValue>{movie.genre}</StyledValue>
+        <StyledValue>{genre}</StyledValue>
       </p>
     </StyledContainer>
   )

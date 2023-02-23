@@ -1,3 +1,4 @@
+import { devices } from '@/constants/devices'
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
@@ -21,10 +22,15 @@ const GlobalStyle = createGlobalStyle`
     width: 50px;
     height: 6px;
     border-radius: 8px;
+
+    @media ${devices.tablet} {
+      width: 90px;
+    }
   }
   .swiper-pagination-bullet-active {
     background-color: rgba(255, 255, 255, 0.7) !important;
   }
+
 `
 
 export default GlobalStyle

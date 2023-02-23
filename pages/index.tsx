@@ -10,13 +10,21 @@ import { getMovies } from '@/services/getMovies'
 import { getGenres } from '@/services/getGenres'
 import { getFavs } from '@/services/getFavs'
 import { isAvailableByDate } from '@/utils/isAvailableByDate'
+import { IMoviesByGenres, IMovie, ISession } from '@/interfaces'
+import { GetServerSideProps } from 'next'
 import 'swiper/css/bundle'
 
-export default function Home({ moviesByGenres, highlightedMovies, allMovies, commingSoonMovies, favsMovies }: any) {
-  const [filter, setFilter] = useState('')
-  console.log({ moviesByGenres, highlightedMovies, allMovies, commingSoonMovies, favsMovies })
+interface Props {
+  moviesByGenres: IMoviesByGenres[]
+  highlightedMovies: IMovie[]
+  commingSoonMovies: IMovie[]
+  favsMovies: IMovie[]
+}
 
-  const handleClick = (name: any) => {
+export default function Home({ moviesByGenres, highlightedMovies, commingSoonMovies, favsMovies }: Props) {
+  const [filter, setFilter] = useState('')
+
+  const handleClick = (name: string = '') => {
     if (filter === name) return setFilter('')
     setFilter(name)
   }
@@ -25,6 +33,7 @@ export default function Home({ moviesByGenres, highlightedMovies, allMovies, com
     <Layout>
       <Head>
         <title>Movies App NextJS · Home</title>
+        <meta name='description' content='Movies App NextJS' />
       </Head>
       <HomeHeader highlightedMovies={highlightedMovies} />
       <Filters moviesByGenres={moviesByGenres} handleClick={handleClick} filter={filter} />
@@ -33,8 +42,8 @@ export default function Home({ moviesByGenres, highlightedMovies, allMovies, com
   )
 }
 
-export async function getServerSideProps({ req, res }: any) {
-  const session: any = await getServerSession(req, res, authOptions)
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session: ISession | null = await getServerSession(req, res, authOptions)
 
   if (!session?.user) {
     return {
@@ -45,22 +54,18 @@ export async function getServerSideProps({ req, res }: any) {
     }
   }
 
-  const genres = await getGenres({ session })
+  const [genres, allMovies, favsIDs] = await Promise.all([getGenres({ session }), getMovies({ session }), getFavs({ session })])
 
-  const allMovies = await getMovies({ session })
-
-  const favsIDs = await getFavs({ session })
-
-  const moviesByGenres = genres.map((genre: any) => {
-    const movies = allMovies.filter((movie: any) => movie.genre === genre.id)
+  const moviesByGenres = genres.map((genre) => {
+    const movies = allMovies.filter((movie) => movie.genre === genre.id)
     return { ...genre, movies }
   })
 
-  const highlightedMovies = allMovies.filter((movie: any) => movie.highlighted === true)
+  const highlightedMovies = allMovies.filter((movie) => movie.highlighted === true)
 
-  const commingSoonMovies = allMovies.filter((movie: any) => isAvailableByDate(movie.availableDate) === false)
+  const commingSoonMovies = allMovies.filter((movie) => isAvailableByDate(movie.availableDate) === false)
 
-  const favsMovies = allMovies.filter((movie: any) => favsIDs.includes(movie.id))
+  const favsMovies = allMovies.filter((movie) => favsIDs.includes(movie.id))
 
   return {
     props: {

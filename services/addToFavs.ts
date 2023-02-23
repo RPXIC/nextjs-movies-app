@@ -1,4 +1,4 @@
-export const addToFavs = async ({ id, token }: any) => {
+export const addToFavs = async ({ id, token }: { id: string; token: string }) => {
   const favResponse = await fetch(`${process.env.nextApiURL}/films/user/list`, {
     method: 'POST',
     headers: {

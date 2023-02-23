@@ -1,5 +1,5 @@
-import { devices } from '@/constants/devices'
 import styled from 'styled-components'
+import { devices } from '@/constants/devices'
 
 export const StyledLoginForm = styled.form`
   display: flex;
