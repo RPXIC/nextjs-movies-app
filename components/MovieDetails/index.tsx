@@ -37,27 +37,22 @@ export default function MovieDetails({ movie, genre }: { movie: IMovie; genre: s
 
   const handleClick = async (id: string, method: 'delete' | 'add') => {
     if (method === 'delete') {
-      const x = await fetch('/api/removeFav', {
+      const response = await fetch('/api/removeFav', {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, token: session?.user?.accessToken })
       })
-      const y = await x.json()
-      setFavs(y.myList)
+      const result = await response.json()
+      setFavs(result.myList)
     }
     if (method === 'add') {
-      const x = await fetch('/api/addFav', {
+      const response = await fetch('/api/addFav', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, token: session?.user?.accessToken })
       })
-      const y = await x.json()
-
-      setFavs(y.myList)
+      const result = await response.json()
+      setFavs(result.myList)
     }
   }
 

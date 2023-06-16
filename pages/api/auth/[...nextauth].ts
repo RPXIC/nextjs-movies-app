@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import type { NextAuthOptions } from 'next-auth'
+import { USE_MOCKS } from '@/toggles'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,24 +12,33 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials, req): Promise<any> {
-        const res = await fetch('https://kata.conducerevel.com/films/auth/sign-in', {
-          method: 'POST',
-          body: JSON.stringify(credentials),
-          headers: { 'Content-Type': 'application/json' }
-        })
-        const token = await res.json()
-        if (res.ok && token) {
+        if (USE_MOCKS) {
           return {
             name: credentials?.email,
             email: credentials?.email,
             image: null,
-            token: token.token
+            token: 'token'
           }
+        } else {
+          const res = await fetch(`${process.env.API_URL}/films/auth/sign-in`, {
+            method: 'POST',
+            body: JSON.stringify(credentials),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          const token = await res.json()
+          if (res.ok && token) {
+            return {
+              name: credentials?.email,
+              email: credentials?.email,
+              image: null,
+              token: token.token
+            }
+          }
+          if (!res.ok) {
+            throw new Error(token.message)
+          }
+          return null
         }
-        if (!res.ok) {
-          throw new Error(token.message)
-        }
-        return null
       }
     })
   ],

@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { id, token } = req.body
 
-  const x = await addToFavs({ id, token })
+  const response = await addToFavs({ id, token })
 
-  res.json(x)
+  res.json(response)
 }

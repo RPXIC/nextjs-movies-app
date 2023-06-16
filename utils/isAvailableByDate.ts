@@ -1,4 +1,4 @@
-export const isAvailableByDate = (date: Date): boolean => {
+export const isAvailableByDate = (date: Date | string): boolean => {
   if (!(new Date(date) instanceof Date)) throw new Error('Date is not a valid date')
 
   const today = new Date()

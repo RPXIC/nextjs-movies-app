@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const token = req.headers.authorization
   const parsedToken = token?.split(' ')[1]
 
-  const x = await getFavs({ token: parsedToken })
+  const response = await getFavs({ token: parsedToken })
 
-  res.json(x)
+  res.json(response)
 }

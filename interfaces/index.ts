@@ -2,14 +2,14 @@ import { Session } from 'next-auth'
 
 export interface IMovie {
   highlighted: boolean
-  rating: number
+  rating: number | null
   poster: string
   cast: string
   thumbnail: string
   description: string
   id: string
   genre: string
-  availableDate: Date
+  availableDate: string
   title: string
 }
 
